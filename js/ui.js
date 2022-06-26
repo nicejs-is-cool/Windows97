@@ -277,6 +277,10 @@ function $prompt(title, text, callback) {
     $winui.destroy(win.id);
     if(callback) callback(false, null);
   }
+  var okbtn = document.createElement('button');
+  okbtn.innerText = 'OK';
+  okbtn.style.float = 'right';
+  win.body.appendChild(okbtn);
   $(input).select();
   win.titlebar.querySelector('.title-bar-controls').removeChild(win.titlebar.querySelector('button[aria-label="Minimize"]'));
   return win;
