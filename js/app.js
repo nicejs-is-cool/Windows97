@@ -175,28 +175,26 @@ var $app = {
         )
       );
       function newfile() {
-        $prompt('New file', 'Enter the name of the new file...', function(entered, name) {
-          if(entered) {
-            try {
-              $fs.write($fs.join(path, name), '');
-              refreshContainer();
-            } catch(er) {
-              $alert('Error', er.message);
-            }
+        $prompt('New file', 'Enter the name of the new file...').then(name => {
+          if (!name) return;
+          try {
+            $fs.write($fs.join(path, name), '');
+            refreshContainer();
+          } catch(er) {
+            $alert('Error', er.message);
           }
-        });
+        })
       }
       function newdirectory() {
-        $prompt('New file', 'Enter the name of the new directory...', function(entered, name) {
-          if(entered) {
-            try {
-              $fs.mkdir($fs.join(path, name));
-              refreshContainer();
-            } catch(er) {
-              $alert('Error', er.message);
-            }
+        $prompt('New file', 'Enter the name of the new directory...').then(name => {
+          if (!name) return;
+          try {
+            $fs.mkdir($fs.join(path, name));
+            refreshContainer();
+          } catch(er) {
+            $alert('Error', er.message);
           }
-        });
+        })
       }
 
       var refreshContainer = function() {

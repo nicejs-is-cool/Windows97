@@ -104,27 +104,25 @@ const $desktop = {
     )
   );
   function newfile() {
-    $prompt('New file', 'Enter the name of the new file...', function(entered, name) {
-      if(entered) {
-        try {
-          $fs.write('C:/desktop/' + name, '');
-          $desktop.refresh();
-        } catch(er) {
-          $alert('Error', er.message);
-        }
+    $prompt('New file', 'Enter the name of the new file...').then(name => {
+      if (!name) return;
+      try {
+        $fs.write('C:/desktop/' + name, '');
+        $desktop.refresh();
+      } catch(er) {
+        $alert('Error', er.message);
       }
-    });
+    })
   }
   function newdirectory() {
-    $prompt('New file', 'Enter the name of the new directory...', function(entered, name) {
-      if(entered) {
-        try {
-          $fs.mkdir('C:/desktop/' + name);
-          $desktop.refresh();
-        } catch(er) {
-          $alert('Error', er.message);
-        }
+    $prompt('New file', 'Enter the name of the new directory...').then(name => {
+      if (!name) return;
+      try {
+        $fs.mkdir('C:/desktop/' + name, '');
+        $desktop.refresh();
+      } catch(er) {
+        $alert('Error', er.message);
       }
-    });
+    })
   }
 })();

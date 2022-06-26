@@ -60,24 +60,23 @@ var $cmd = {
     }
   },
   'rename': function(arg, env) {
-    $prompt('Rename file', 'Enter the new name...', function(entered, newname) {
-      if(entered) {
-        var path = $fs.trim(arg.join(' ')).split('/');
-        var parent = path.slice(0, -1).join('/');
-        var curname = path[path.length - 1];
-        if($fs.exists(parent + '/' + newname)) {
+    $prompt('Rename file', 'Enter the new name...').then(newname => {
+      if (!newname) return;
+      var path = $fs.trim(arg.join(' ')).split('/');
+      var parent = path.slice(0, -1).join('/');
+      var curname = path[path.length - 1];
+      if($fs.exists(parent + '/' + newname)) {
           $alert('Error', 'Path already exists.');
           return;
-        }
-        /* do the work */
-        var place = $fs.getLocation(parent);
-        var rawdata = localStorage.getItem(place);
-        var newdata = rawdata.replace('<' + encodeURIComponent(curname), '<' + encodeURIComponent(newname));
-        localStorage.setItem(place, newdata);
-        if(parent == 'C:/desktop') $desktop.refresh();
-        if(env.fileman) env.fileman();
       }
-    });
+      /* do the work */
+      var place = $fs.getLocation(parent);
+      var rawdata = localStorage.getItem(place);
+      var newdata = rawdata.replace('<' + encodeURIComponent(curname), '<' + encodeURIComponent(newname));
+      localStorage.setItem(place, newdata);
+      if(parent == 'C:/desktop') $desktop.refresh();
+      if(env.fileman) env.fileman();
+    })
   },
   'delete': function(arg, env) {
     $fs.remove(arg.join(' '));
