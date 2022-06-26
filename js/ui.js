@@ -44,6 +44,11 @@ function $window(cparam) {
         <button aria-label="Close" onclick="$winui.destroy('` + winid + `')"></button>
       `;
   }
+  if (!param.resize && !param.minimize) {
+    title_bar_buttons.innerHTML = `
+        <button aria-label="Close" onclick="$winui.destroy('` + winid + `')"></button>
+      `;
+  }
 
   var body = document.createElement('div');
   body.style.width = param.width ? param.width + 'px' : '';
@@ -257,7 +262,7 @@ function $alert(title, text, callback) {
   return win;
 }
 
-function $prompt(title, text, callback) {
+/*function $prompt(title, text, callback) {
   var win = $window({title: title, width: 320, height: false, resize: false});
   var content = document.createElement('div');
   content.innerText = text;
@@ -284,6 +289,35 @@ function $prompt(title, text, callback) {
   $(input).select();
   win.titlebar.querySelector('.title-bar-controls').removeChild(win.titlebar.querySelector('button[aria-label="Minimize"]'));
   return win;
+}
+*/
+// fw.js + promise rewrite
+function $prompt(title, text) {
+  return new Promise(resolve => {
+      const win = $window({title: title, width: 320, height: false, resize: false, minimize: false})
+      const submitFunc = () => {
+          $winui.destroy(win.id);
+          return resolve(win.body.querySelector('input').value)
+      };
+      $(win.body)
+          .child( $new('div').text(text) )
+          .child(
+              $new('input')
+                  .attr('type', 'text')
+                  .style({
+                      width: '100%',
+                      marginTop: '15px'
+                  })
+                  .on('keydown', ev => ev.key === "Enter" && submitFunc())
+          )
+          .child(
+              $new('button')
+                  .text('OK')
+                  .style({float: 'right', marginTop: '5px'})
+                  .on('click', submitFunc)
+          )
+      $(win.body.querySelector('input')).select();
+  })
 }
 
 /* toolbar time display */
