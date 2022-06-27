@@ -66,7 +66,7 @@ const $desktop = {
     }
     var icon = $new('div')
       .class('icon')
-      .style({'position': 'absolute', 'top': y + 'px', 'left': x + 'px'})
+      .style({'position': 'absolute', 'top': y + 'px', 'left': x + 'px', 'user-select': 'none'})
       .attr('tabIndex', '1')
       .child(
         $new('img')
