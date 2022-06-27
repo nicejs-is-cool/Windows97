@@ -74,6 +74,7 @@ body {
   margin: 0;
   overflow: hidden;
   font-family: "Pixelated MS Sans Serif";
+  cursor: url('../nw97-cursor-test.png'), none;
 }
 
 #bootscreen {
